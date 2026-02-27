@@ -1,75 +1,105 @@
-![Logo](./assets/logo.png)
+<p align="center">
+  <img src="./assets/logo.png" width="180"/>
+</p>
 
-<strong>Robusto, fácil y seguro.</strong>
-Gestor de contraseñas cifrado, 100% offline, desarrollado en Java.
+<h1 align="center">🔐 CipherKey</h1>
 
----
+<p align="center">
+  <strong>Robusto. Simple. Seguro.</strong><br>
+  Gestor de contraseñas cifrado, 100% offline, desarrollado en Java.
+</p>
 
-![Java](https://img.shields.io/badge/Java-JDK%2025-orange)
-![Build](https://img.shields.io/badge/Build-Maven-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Alpha-red)
-
----
-
-## Descripción
-
-CipherKey es un gestor de contraseñas cifrado y completamente offline desarrollado en Java (JDK 25) con Java Swing.
-
-Permite crear una bóveda protegida por una contraseña maestra, almacenar credenciales de forma estructurada y generar contraseñas seguras, todo sin depender de servicios en la nube.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-JDK%2025-orange?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Build-Maven-blue?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Status-Beta-yellow?style=for-the-badge"/>
+</p>
 
 ---
 
-## Seguridad
+## 📌 Descripción
 
-- Protección mediante contraseña maestra
-- Hash de contraseña usando SHA-256
-- Persistencia en JSON cifrado
-- Archivo de clave en formato .ckey
-- Eliminación de datos sensibles de memoria tras su uso
+**CipherKey** es un gestor de contraseñas cifrado y completamente offline desarrollado en **Java (JDK 25)** con **Java Swing**.
+
+Permite:
+
+- 🔐 Crear una bóveda protegida por contraseña maestra
+- 🗂️ Almacenar credenciales estructuradas
+- 🔑 Generar contraseñas seguras
+- ☁️ Operar sin depender de servicios en la nubee
+
+> Tu seguridad no debería depender de terceros.
 
 ---
 
-## Arquitectura
+## 🛡️ Seguridad
+
+| Característica | Implementación |
+|---------------|----------------|
+| Contraseña maestra | Protección obligatoria |
+| Hash seguro | SHA-256 |
+| Persistencia | JSON cifrado |
+| Archivo de clave | `.ckey` |
+| Seguridad en memoria | Limpieza de datos sensibles tras uso |
+
+---
+
+## 🏗️ Arquitectura
+
+| Tecnología | Uso |
+|------------|------|
+| Java JDK 25 | Núcleo del sistema |
+| Java Swing | Interfaz gráfica |
+| Maven | Gestión de dependencias |
+| Arquitectura | Monolítica |
+| Persistencia | JSON cifrado |
+
+---
+
+## ⚙️ Funcionalidades
+
+- ✅ Creación de bóveda
+- ✅ Acceso mediante clave maestra
+- ✅ Generación de contraseñas seguras
+- ✅ Gestión por usuario y dominio
+- ✅ Eliminación segura en memoria
+
+---
+
+## 🚀 Instalación
+
+### 📋 Requisitos
 
 - Java JDK 25
-- Java Swing
-- Maven
-- Arquitectura monolítica
-- Persistencia en JSON cifrado
-
----
-
-## Funcionalidades
-
-- Creación de bóveda
-- Acceso mediante clave maestra
-- Generación de contraseñas seguras
-- Gestión de credenciales por usuario y dominio
-- Eliminación segura en memoria
-
----
-
-## Instalación
-
-Requisitos:
-- Java JDK 25
 - Maven
 
-Compilación:
+### 🔨 Compilación
+
+```bash
 mvn clean package
-
-Ejecución:
+```
+▶️ Ejecución
+```bash
 java -jar target/cipherkey.jar
+```
+📊 Estado del Proyecto
 
----
+🟡 **Beta**
 
-## Estado
+El proyecto es funcional pero está en evolución constante, con búsqueda de errores y posibles mejoras de optimización y seguridad.
+Se planean mejoras en:
 
-Beta
+> UI/UX
 
----
+> Optimización de cifrado
 
-## Licencia
+> Tests automatizados
 
-MIT
+> Modularización futura
+
+### 📄 Licencia
+
+Distribuido bajo licencia MIT.
+
+<p align="center"> Hecho con ☕ y Java </p>
