@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="./assets/logo.png" width="180"/>
+  <img src="./assets/logo.png" width="280"/>
 </p>
-
-<h1 align="center">🔐 CipherKey</h1>
 
 <p align="center">
   <strong>Robusto. Simple. Seguro.</strong><br>
@@ -30,6 +28,29 @@ Permite:
 - ☁️ Operar sin depender de servicios en la nubee
 
 > Tu seguridad no debería depender de terceros.
+
+---
+
+## 🖥️ Vista Previa
+
+
+### **Pantalla de login**
+
+<p align="center">
+  <img src="./assets/login.png" width="700"/>
+</p>
+
+### **Dashboard / bóveda abierta**
+
+<p align="center">
+  <img src="./assets/dashboard.png" width="700"/>
+</p>
+
+### **Generador de contraseñas**
+
+<p align="center">
+  <img src="./assets/passwordGenerator.png" width="700"/>
+</p>
 
 ---
 

@@ -18,6 +18,7 @@ public class EntryDialog extends JDialog {
         JButton cancelButton = new JButton("Cancelar");
 
         okButton.addActionListener(e -> {
+            confirmed = true;
             dispose();
         });
         cancelButton.addActionListener(e -> dispose());

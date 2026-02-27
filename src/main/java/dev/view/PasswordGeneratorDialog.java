@@ -33,6 +33,12 @@ public class PasswordGeneratorDialog extends JDialog {
         generateBtn.addActionListener(e -> generate());
         copyBtn.addActionListener(e -> copy());
 
+        JButton acceptBtn = new JButton("Aceptar");
+        acceptBtn.addActionListener(e -> {
+            accepted = true;
+            dispose();
+        });
+
         JPanel optionsPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         optionsPanel.add(upperChk);
         optionsPanel.add(lowerChk);
@@ -48,6 +54,7 @@ public class PasswordGeneratorDialog extends JDialog {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(generateBtn);
+        buttonPanel.add(acceptBtn);
         JButton closeBtn = new JButton("Cerrar");
         closeBtn.addActionListener(e -> dispose());
         buttonPanel.add(closeBtn);
