@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="./assets/logo.png" width="280"/>
+  <img src="./assets/logo.png" width="400"/>
 </p>
 
 <p align="center">
-  <strong>Robusto. Simple. Seguro.</strong><br>
-  Gestor de contraseñas cifrado, 100% offline, desarrollado en Java.
+  <strong>Robusto - Simple - Seguro.</strong><br>
+  Gestor de contraseñas, 100% offline, desarrollado en Java.
 </p>
 
 <p align="center">
@@ -16,22 +16,22 @@
 
 ---
 
-## 📌 Descripción
+## 📌 ¿De que trata este proyecto?
 
 **CipherKey** es un gestor de contraseñas cifrado y completamente offline desarrollado en **Java (JDK 25)** con **Java Swing**.
 
 Permite:
 
-- 🔐 Crear una bóveda protegida por contraseña maestra
-- 🗂️ Almacenar credenciales estructuradas
-- 🔑 Generar contraseñas seguras
-- ☁️ Operar sin depender de servicios en la nubee
+- 🔐 Crear un espacio de contraseñas protegido con una llave maestra
+- 🗂️🗂️Amacenamiento de credenciales a prueba de fuerza bruta
+- 🔑 Generador de contraseñas seguras (hasta 64 caracteres)
+- ☁️ Aplicacion completamente offline
 
-> Tu seguridad no debería depender de terceros.
+> __Tu seguridad no debería depender de terceros.__
 
 ---
 
-## 🖥️ Vista Previa
+## 🖥️ VCómo se ve la aplicación?
 
 
 ### **Pantalla de login**
@@ -40,7 +40,7 @@ Permite:
   <img src="./assets/login.png" width="700"/>
 </p>
 
-### **Dashboard / bóveda abierta**
+### **Dashboard**
 
 <p align="center">
   <img src="./assets/dashboard.png" width="700"/>
@@ -56,13 +56,14 @@ Permite:
 
 ## 🛡️ Seguridad
 
-| Característica | Implementación |
+| Características | Implementaciones |
 |---------------|----------------|
-| Contraseña maestra | Protección obligatoria |
+| Master key | Protección obligatoria |
 | Hash seguro | SHA-256 |
-| Persistencia | JSON cifrado |
-| Archivo de clave | `.ckey` |
-| Seguridad en memoria | Limpieza de datos sensibles tras uso |
+| Persistencia de datos | JSON cifrado |
+| Archivo de clave cifrado | `.ckey` |
+| Seguridad en memoria | Limpieza de datos sensibles tras 30s o tras usarlo |
+| Longitud de la contraseña | Hasta 64 caracteres de contraseña para mayor seguridad |
 
 ---
 
@@ -70,11 +71,10 @@ Permite:
 
 | Tecnología | Uso |
 |------------|------|
-| Java JDK 25 | Núcleo del sistema |
+| Java JDK 25 | Core del sistema |
 | Java Swing | Interfaz gráfica |
 | Maven | Gestión de dependencias |
-| Arquitectura | Monolítica |
-| Persistencia | JSON cifrado |
+| org.json | Dependia de cifrado de JSON |
 
 ---
 
@@ -83,7 +83,7 @@ Permite:
 - ✅ Creación de bóveda
 - ✅ Acceso mediante clave maestra
 - ✅ Generación de contraseñas seguras
-- ✅ Gestión por usuario y dominio
+- ✅ Gestión por usuario, dominio, URL y Notas
 - ✅ Eliminación segura en memoria
 
 ---
@@ -97,11 +97,11 @@ Permite:
 
 ### 🔨 Compilación
 
-```bash
+```java
 mvn clean package
 ```
 ▶️ Ejecución
-```bash
+```java
 java -jar target/cipherkey.jar
 ```
 📊 Estado del Proyecto
@@ -115,9 +115,9 @@ Se planean mejoras en:
 
 > Optimización de cifrado
 
-> Tests automatizados
+> Tests unitarios con JUNIT
 
-> Modularización futura
+> Escalabilidad en futuras adaptaciones
 
 ### 📄 Licencia
 
