@@ -31,7 +31,7 @@ Permite:
 
 ---
 
-## 🖥️ V¿Cómo se ve la aplicación?
+## 🖥️ ¿Cómo se ve la aplicación?
 
 
 ### **Pantalla de login**
