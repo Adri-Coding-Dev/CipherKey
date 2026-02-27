@@ -74,7 +74,7 @@ Permite:
 | Java JDK 25 | Core del sistema |
 | Java Swing | Interfaz gráfica |
 | Maven | Gestión de dependencias |
-| org.json | Dependia de cifrado de JSON |
+| org.json | Dependencia de cifrado de JSON |
 
 ---
 
