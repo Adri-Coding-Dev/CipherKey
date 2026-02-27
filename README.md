@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Java-JDK%2025-orange?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Build-Maven-blue?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Status-Beta-yellow?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Status-V1.0-yellow?style=for-the-badge"/>
 </p>
 
 ---
@@ -108,7 +108,7 @@ java -jar target/cipherkey.jar
 ```
 📊 Estado del Proyecto
 
-🟡 **Beta**
+🟡 **V1.0**
 
 El proyecto es funcional pero está en evolución constante, con búsqueda de errores y posibles mejoras de optimización y seguridad.
 Se planean mejoras en:
