@@ -94,6 +94,8 @@ Permite:
 
 - Java JDK 25
 - Maven
+  
+---
 
 ### 🔨 Compilación
 
@@ -118,6 +120,8 @@ Se planean mejoras en:
 > Tests unitarios con JUNIT
 
 > Escalabilidad en futuras adaptaciones
+
+---
 
 ### 📄 Licencia
 
