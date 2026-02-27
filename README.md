@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <strong>Robusto - Simple - Seguro.</strong><br>
-  Gestor de contraseñas, 100% offline, desarrollado en Java.
+  <strong>Robusto - Simple - Seguro</strong><br>
+  Gestor de contraseñas, 100% offline, desarrollado en Java
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
 Permite:
 
 - 🔐 Crear un espacio de contraseñas protegido con una llave maestra
-- 🗂️🗂️Amacenamiento de credenciales a prueba de fuerza bruta
+- 🗂️ Amacenamiento de credenciales a prueba de fuerza bruta
 - 🔑 Generador de contraseñas seguras (hasta 64 caracteres)
 - ☁️ Aplicacion completamente offline
 
@@ -31,7 +31,7 @@ Permite:
 
 ---
 
-## 🖥️ VCómo se ve la aplicación?
+## 🖥️ V¿Cómo se ve la aplicación?
 
 
 ### **Pantalla de login**
