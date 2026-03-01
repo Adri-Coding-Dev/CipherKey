@@ -259,7 +259,7 @@ El proyecto sigue.
 - Persistencia cifrada `.ckey`
 - Interfaz gráfica Swing
 
-  ## V[1.0]
+  ## V[2.0]
 
 ### Added
 - Sistema de autenticación con clave maestra
