@@ -232,10 +232,10 @@ classDiagram
 
 ```mermaid
 flowchart TD
-    A = ([Usuario introduce clave]) --> B = ([Hash SHA-256])
-    B --> C = (¿Coincide?)
-    C -->|Sí| D = ([Acceso al Dashboard])
-    C -->|No| E = ([Error de autenticación]) --> A
+    A[Usuario introduce clave] --> B[Hash SHA-256]
+    B --> C {¿Coincide?}
+    C -->|Sí| D[Acceso al Dashboard]
+    C -->|No| E[Error de autenticación] --> A
 ```
 
 ---
