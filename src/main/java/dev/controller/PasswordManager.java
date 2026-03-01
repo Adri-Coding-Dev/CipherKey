@@ -1,127 +1,128 @@
 package dev.controller;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import dev.model.PasswordEntry;
-import dev.persistence.StorageManager;
-import dev.security.CryptoUtils;
-import dev.security.MasterPasswordService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.crypto.SecretKey;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PasswordManager {
-    private static final Logger logger = LoggerFactory.getLogger(PasswordManager.class);
-
+    private final Path vaultFile;
+    private char[] masterPassword; // Solo se mantiene mientras la sesión está abierta
     private List<PasswordEntry> entries;
-    private MasterPasswordService masterService;
-    private StorageManager storage;
-    private SecretKey vaultKey;          // Clave derivada de la contraseña maestra (solo cuando está desbloqueado)
-    private boolean unlocked;
+    private Gson gson;
 
-    public PasswordManager() {
+    public PasswordManager(Path vaultFile) {
+        this.vaultFile = vaultFile;
+        this.gson = new Gson();
+        this.entries = new ArrayList<>();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+            @Override
+            public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+                return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            }
+        });
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            @Override
+            public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            }
+        });
+        this.gson = gsonBuilder.create();
+    }
+
+    public boolean unlock(char[] password) {
         try {
-            this.masterService = new MasterPasswordService();
-            this.storage = new StorageManager();
-            this.entries = new ArrayList<>();
-            this.unlocked = false;
+            byte[] data = VaultManager.loadVault(vaultFile, password);
+            String json = new String(data, StandardCharsets.UTF_8);
+            Type listType = new TypeToken<ArrayList<PasswordEntry>>(){}.getType();
+            List<PasswordEntry> loaded = gson.fromJson(json, listType);
+            if (loaded == null) {
+                loaded = new ArrayList<>();
+            }
+            this.entries = loaded;
+            this.masterPassword = password.clone();
+            return true;
         } catch (Exception e) {
-            logger.error("Error al inicializar PasswordManager", e);
-            throw new RuntimeException(e);
+            // Registrar la excepción para depuración
+            e.printStackTrace();
+            // Opcional: mostrar un mensaje más específico (solo durante desarrollo)
+            // JOptionPane.showMessageDialog(null, "Error al abrir bóveda: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            Arrays.fill(password, (char) 0);
+            return false;
         }
     }
 
-    /**
-     * Intenta desbloquear la bóveda con la contraseña maestra.
-     * @param masterPassword Contraseña maestra en char[] (se limpiará después)
-     * @return true si es correcta y se cargaron los datos
-     */
-    public boolean unlock(char[] masterPassword) {
-        try {
-            if (!masterService.verifyMasterPassword(masterPassword)) {
-                return false;
-            }
-            // Derivar clave para cifrar/descifrar la bóveda
-            byte[] salt = masterService.getSalt();
-            this.vaultKey = CryptoUtils.deriveKey(masterPassword, salt); // masterPassword se limpia dentro de deriveKey
-
-            // Cargar datos cifrados
-            byte[] encryptedData = storage.loadEncryptedData();
-            if (encryptedData != null && encryptedData.length > 0) {
-                byte[] plainData = CryptoUtils.decrypt(encryptedData, vaultKey);
-                entries = storage.deserializeEntries(plainData);
-            } else {
-                entries = new ArrayList<>(); // Bóveda nueva
-            }
-            unlocked = true;
-            return true;
-        } catch (Exception e) {
-            logger.error("Error al desbloquear", e);
-            return false;
+    public void saveData() throws Exception {
+        if (masterPassword == null) {
+            throw new IllegalStateException("No hay sesión activa");
         }
+        String json = gson.toJson(entries);
+        byte[] data = json.getBytes(StandardCharsets.UTF_8);
+        VaultManager.saveVault(vaultFile, masterPassword, data);
     }
 
     public void lock() {
-        // Limpiar datos sensibles
-        vaultKey = null;
+        if (masterPassword != null) {
+            Arrays.fill(masterPassword, (char) 0);
+            masterPassword = null;
+        }
         entries.clear();
-        unlocked = false;
-        System.gc(); // Sugerir recolección
     }
 
-    public boolean isUnlocked() { return unlocked; }
+    /**
+     * Cambia la contraseña maestra de la bóveda.
+     * @param oldPassword Contraseña actual (se limpiará después de usar)
+     * @param newPassword Nueva contraseña (se limpiará después de usar)
+     * @return true si el cambio fue exitoso
+     */
+    public boolean changeMasterPassword(char[] oldPassword, char[] newPassword) {
+        try {
+            // Verificar que la contraseña actual es correcta cargando los datos
+            byte[] data = VaultManager.loadVault(vaultFile, oldPassword);
+            // Guardar los mismos datos con la nueva contraseña
+            VaultManager.saveVault(vaultFile, newPassword, data);
+            // Si la sesión estaba abierta con la contraseña antigua, actualizar la copia en memoria
+            if (masterPassword != null && Arrays.equals(masterPassword, oldPassword)) {
+                Arrays.fill(masterPassword, (char) 0);
+                masterPassword = newPassword.clone();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
-    public List<PasswordEntry> getEntries() { return entries; }
+    // Métodos de gestión de entradas
+    public List<PasswordEntry> getEntries() {
+        return entries;
+    }
 
     public void addEntry(PasswordEntry entry) {
-        entry.touch();
+        // Asignar un ID único basado en el máximo existente
+        int newId = entries.stream().mapToInt(PasswordEntry::getId).max().orElse(0) + 1;
+        entry.setId(newId);
         entries.add(entry);
     }
 
-    public void updateEntry(PasswordEntry entry) {
-        entry.touch();
+    public void updateEntry(PasswordEntry updated) {
         for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getId().equals(entry.getId())) {
-                entries.set(i, entry);
-                break;
+            if (entries.get(i).getId() == updated.getId()) {
+                entries.set(i, updated);
+                return;
             }
         }
     }
 
-    public void deleteEntry(String id) {
-        entries.removeIf(e -> e.getId().equals(id));
-    }
-
-    /**
-     * Guarda los datos actuales cifrados en disco.
-     */
-    public void saveData() throws Exception {
-        if (!unlocked || vaultKey == null) {
-            throw new IllegalStateException("Bóveda no desbloqueada");
-        }
-        byte[] plainData = storage.serializeEntries(entries);
-        byte[] encrypted = CryptoUtils.encrypt(plainData, vaultKey);
-        storage.saveEncryptedData(encrypted);
-    }
-
-    /**
-     * Cambia la contraseña maestra y recifra la bóveda con la nueva clave.
-     */
-    public boolean changeMasterPassword(char[] oldPassword, char[] newPassword) {
-        try {
-            // Verificar antigua y obtener nueva clave
-            SecretKey newKey = masterService.changeMasterPassword(oldPassword, newPassword);
-            // Recifrar todos los datos con la nueva clave
-            byte[] plainData = storage.serializeEntries(entries);
-            byte[] encrypted = CryptoUtils.encrypt(plainData, newKey);
-            storage.saveEncryptedData(encrypted);
-            // Actualizar clave en memoria
-            this.vaultKey = newKey;
-            return true;
-        } catch (Exception e) {
-            logger.error("Error al cambiar contraseña maestra", e);
-            return false;
-        }
+    public void deleteEntry(int id) {
+        entries.removeIf(e -> e.getId() == id);
     }
 }

@@ -20,6 +20,8 @@ public class MainFrame extends JFrame {
     private InactivityListener inactivityListener;
     private Timer autoLockTimer;
 
+    private JButton themeButton;
+
     public MainFrame(PasswordManager manager) {
         this.manager = manager;
         setTitle("Gestor de Contraseñas");
@@ -38,9 +40,14 @@ public class MainFrame extends JFrame {
         loadEntries();
 
         // Iniciar listener de inactividad (5 minutos)
-        inactivityListener = new InactivityListener(300, this::lock);
+        inactivityListener = new InactivityListener(30, this::lock);
         Toolkit.getDefaultToolkit().addAWTEventListener(inactivityListener,
                 AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK);
+
+        // Establecer tema claro por defecto y actualizar el botón
+        ThemeManager.setLightTheme();
+        SwingUtilities.updateComponentTreeUI(this);
+        themeButton.setText(ThemeManager.isDarkTheme() ? "Light" : "Dark");
     }
 
     private void initMenu() {
@@ -69,7 +76,21 @@ public class MainFrame extends JFrame {
         menuBar.add(fileMenu);
         menuBar.add(toolsMenu);
         menuBar.add(helpMenu);
+
+        // Espaciador para empujar el botón a la derecha
+        menuBar.add(Box.createHorizontalGlue());
+
+        // Botón de cambio de tema
+        themeButton = new JButton("Light"); // Inicialmente claro
+        themeButton.addActionListener(e -> toggleTheme());
+        menuBar.add(themeButton);
+
         setJMenuBar(menuBar);
+    }
+
+    private void toggleTheme() {
+        ThemeManager.toggleTheme();
+        themeButton.setText(ThemeManager.isDarkTheme() ? "Light" : "Dark");
     }
 
     private void initComponents() {

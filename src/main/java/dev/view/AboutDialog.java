@@ -13,10 +13,9 @@ public class AboutDialog extends JDialog {
                         "Limpieza de portapapeles automática\n" +
                         "Protección contra fuerza bruta\n" +
                         "Cierre por inactividad\n" +
-                        "© 2025"
+                        "© 2026"
         );
         textArea.setEditable(false);
-        textArea.setBackground(UIManager.getColor("Panel.background"));
         textArea.setFont(new Font("SansSerif", Font.PLAIN, 12));
         add(textArea, BorderLayout.CENTER);
         JButton okButton = new JButton("Aceptar");

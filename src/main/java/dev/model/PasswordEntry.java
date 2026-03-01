@@ -1,76 +1,152 @@
 package dev.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.Objects;
 
+/**
+ * Representa una entrada individual dentro de la bóveda de contraseñas.
+ * Cada entrada tiene un identificador único, título, nombre de usuario,
+ * contraseña, URL, notas, y marcas de tiempo de creación y última modificación.
+ */
 public class PasswordEntry {
-    private String id;
+    private int id;
     private String title;
     private String username;
-    // La contraseña se almacena como String cifrado en JSON, pero en memoria se usa char[] de forma transitoria.
-    // Para simplificar, la mantendremos como String en el modelo, pero la limpiaremos al cerrar.
     private String password;
     private String url;
     private String notes;
     private LocalDateTime created;
     private LocalDateTime modified;
 
+    /**
+     * Constructor por defecto. Inicializa las marcas de tiempo con la hora actual.
+     */
     public PasswordEntry() {
-        this.id = UUID.randomUUID().toString();
         this.created = LocalDateTime.now();
         this.modified = this.created;
     }
 
+    /**
+     * Constructor con campos principales. Inicializa las marcas de tiempo con la hora actual.
+     *
+     * @param title    Título de la entrada
+     * @param username Nombre de usuario
+     * @param password Contraseña
+     * @param url      URL asociada (opcional)
+     * @param notes    Notas adicionales (opcional)
+     */
     public PasswordEntry(String title, String username, String password, String url, String notes) {
-        this();
         this.title = title;
         this.username = username;
         this.password = password;
         this.url = url;
         this.notes = notes;
+        this.created = LocalDateTime.now();
+        this.modified = this.created;
     }
 
-    // Getters y setters (todos públicos)
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Getters y setters
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public int getId() {
+        return id;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    @JsonIgnore // No exponer la contraseña en JSON directamente, se maneja aparte
-    public String getPassword() { return password; }
-    @JsonProperty
-    public void setPassword(String password) { this.password = password; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
+    public void setTitle(String title) {
+        this.title = title;
+        this.modified = LocalDateTime.now();
+    }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public String getUsername() {
+        return username;
+    }
 
-    public LocalDateTime getCreated() { return created; }
-    public void setCreated(LocalDateTime created) { this.created = created; }
+    public void setUsername(String username) {
+        this.username = username;
+        this.modified = LocalDateTime.now();
+    }
 
-    public LocalDateTime getModified() { return modified; }
-    public void setModified(LocalDateTime modified) { this.modified = modified; }
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+        this.modified = LocalDateTime.now();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+        this.modified = LocalDateTime.now();
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+        this.modified = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getModified() {
+        return modified;
+    }
+
+    public void setModified(LocalDateTime modified) {
+        this.modified = modified;
+    }
+
+    /**
+     * Actualiza explícitamente la marca de tiempo de modificación al instante actual.
+     * Útil cuando se modifican varios campos de forma externa.
+     */
     public void touch() {
         this.modified = LocalDateTime.now();
     }
 
-    // Método para limpiar datos sensibles (llamar al cerrar sesión)
-    public void wipe() {
-        // Si la contraseña se almacena como char[], se limpiaría; como String, no podemos.
-        // Este método es un recordatorio de que deberíamos usar char[].
-        // En esta versión mejorada, mantenemos String por simplicidad con JSON,
-        // pero recomendamos usar un cifrado en memoria con char[] y convertirlo solo para serialización.
-        // No implementamos el wipe real para no complicar.
+    // equals y hashCode basados en el identificador único
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PasswordEntry that = (PasswordEntry) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "PasswordEntry{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", username='" + username + '\'' +
+                ", url='" + url + '\'' +
+                ", modified=" + modified +
+                '}';
     }
 }
