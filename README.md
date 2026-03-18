@@ -203,24 +203,27 @@ Cobertura:
 # 📊 Diagramas
 
 ## 🔷 Diagrama de Clases (UML)
-
 ```mermaid
-class CipherKey
+classDiagram
+    class CipherKey {}
+
     class ConfigVault {
-        -String Config_Path
-        -String Dat_File
-        -String Hash_File
-        -String notes
-        -int length
+        - configPath : String
+        - datFile : String
+        - hashFile : String
+        - notes : String
+        - length : int
     }
 
     class VaultManager {
-        +create()
-        +load()
-        +save()
-        +decript()
-        +encript()
+        + create()
+        + load()
+        + save()
+        + decrypt()
+        + encrypt()
     }
+
+    class Credential {}
 
     User --> VaultManager
     VaultManager --> Credential
