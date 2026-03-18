@@ -205,6 +205,7 @@ Cobertura:
 ## 🔷 Diagrama de Clases (UML)
 
 ```mermaid
+class CipherKey
     class ConfigVault {
         -String Config_Path
         -String Dat_File
