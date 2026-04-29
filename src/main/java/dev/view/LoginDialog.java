@@ -1,12 +1,15 @@
 package dev.view;
 
 import dev.controller.VaultManager;
+import dev.persistence.ConfigManager;
+import dev.utils.EnviarCorreo;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +24,8 @@ public class LoginDialog extends JDialog {
     private long lastAttemptTime = 0;
     private static final int MAX_ATTEMPTS = 5;
     private static final long LOCK_TIME = 30000; // 30 segundos
+
+    private String userEmail = "";
 
     public LoginDialog(Frame parent) {
         super(parent, "Iniciar sesión", true);
@@ -97,11 +102,16 @@ public class LoginDialog extends JDialog {
 
         JPasswordField pwd1 = new JPasswordField(20);
         JPasswordField pwd2 = new JPasswordField(20);
+        JTextField campoCorreoElectronico = new JTextField();
         JPanel pwdPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         pwdPanel.add(new JLabel("Nueva contraseña maestra:"));
         pwdPanel.add(pwd1);
         pwdPanel.add(new JLabel("Confirmar:"));
         pwdPanel.add(pwd2);
+        pwdPanel.add(new JLabel("Introduce tu correo electrónico de verificación"));
+        pwdPanel.add(campoCorreoElectronico);
+
+
 
         int pwdResult = JOptionPane.showConfirmDialog(this, pwdPanel,
                 "Crear nueva bóveda", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -130,7 +140,21 @@ public class LoginDialog extends JDialog {
                 return;
             }
             pathField.setText(file.getAbsolutePath());
+            String email = campoCorreoElectronico.getText().trim();
+            if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe introducir un correo electrónico.");
+                return;
+            }
+                // Guardar el email de forma persistente
+            try {
+                new ConfigManager().saveEmail(email);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el correo: " + ex.getMessage());
+                return;
+            }
             JOptionPane.showMessageDialog(this, "Bóveda creada correctamente.");
+            setUserEmail(campoCorreoElectronico.getText());
+            new EnviarCorreo(campoCorreoElectronico.getText());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al crear la bóveda: " + ex.getMessage());
         } finally {
@@ -184,5 +208,14 @@ public class LoginDialog extends JDialog {
     public void clearPassword() {
         Arrays.fill(passwordField.getPassword(), (char) 0);
         passwordField.setText("");
+    }
+
+    //GETTER & SETTER
+    public void setUserEmail(String userEmail){
+        this.userEmail = userEmail;
+    }
+
+    public  String getUserEmail(){
+        return this.userEmail;
     }
 }

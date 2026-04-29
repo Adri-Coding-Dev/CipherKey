@@ -1,6 +1,8 @@
 package dev;
 
 import dev.controller.PasswordManager;
+import dev.utils.EnviarCorreo;
+import dev.view.EmailVerificatorView;
 import dev.view.LoginDialog;
 import dev.view.MainFrame;
 import org.slf4j.Logger;
@@ -38,7 +40,7 @@ public class App {
             PasswordManager manager = new PasswordManager(vaultFile);
             if (manager.unlock(masterPwd)) {
                 login.clearPassword();
-                new MainFrame(manager).setVisible(true);
+                new EmailVerificatorView(manager, vaultFile);  // Pasar manager
             } else {
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta o archivo corrupto");
                 showLogin();

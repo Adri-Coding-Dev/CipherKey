@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Build-Maven-blue?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Tests-JUnit-red?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Version-2.0-yellow?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Latest_Version-3.0-yellow?style=for-the-badge"/>
 </p>
 
 ---
@@ -84,6 +84,7 @@ CipherKey sigue una arquitectura inspirada en el patrón **MVC (Model-View-Contr
 | Controller | Lógica de la gestion de Contraseñas y bovedas |
 | Security | Cifrado, persistencia y seguridad |
 | Persistence | Utilidades de configuracion y guardado |
+| Utils | Métodos utiles generales del proyecto (email verification)
 
 ---
 
@@ -92,13 +93,13 @@ CipherKey sigue una arquitectura inspirada en el patrón **MVC (Model-View-Contr
 ```
 src/
  └── main/
-     └── java/com/cipherkey/
-         ├── model/
-         ├── view/
-         ├── controller/
-         ├── service/
-         ├── security/
-         └── util/
+     └── java/dev/
+                 ├── controller/
+                 ├── model/
+                 ├── persistence/
+                 ├── security/
+                 ├── utils/
+                 └── view/
 ```
 
 ### Justificación
@@ -114,16 +115,29 @@ src/
 
 ## 1️⃣ Pantalla de Login
 
-- Introducir clave maestra.
-- Si es la primera vez, se crea la bóveda.
+- Introducir clave maestra junto a la bóveda creada anteriormente.
 
 <p align="center">
   <img src="./assets/loginV2.0.png" width="650"/>
 </p>
 
+- Si es la primera vez, se crea la bóveda en la ruta seleccionada, junto a la llave maestra y al correo electronico de autentificacion en dos pasos.
+
+<p align="center">
+  <img src="./assets/loginV3Email.png" width="650"/>
+</p>
+
 ---
 
-## 2️⃣ Dashboard (Modo claro)
+##  2️⃣ Primer inicio
+- Selecciona la boveda (archivo .ckey) y escribe la llave maestra asociada
+- Se envia un codigo de verificacion al correo electrónico asociado a la bóveda para insertarlo y dar acceso a esta.
+
+<p align="center">
+  <img src="./assets/VerificacionEmail.png" width="650"/>
+</p>
+
+## 3️⃣ Dashboard (Modo claro)
 
 - Visualizar credenciales guardadas.
 - Añadir / editar / eliminar entradas.
@@ -140,7 +154,7 @@ src/
 
 ---
 
-## 3️⃣ Generador de Contraseñas
+## 4️⃣ Generador de Contraseñas
 
 - Seleccionar longitud.
 - Generar contraseña segura.
@@ -190,7 +204,7 @@ java -jar target/cipherkey<VERSION>.jar
 
 # 🧪 Tests
 
-El proyecto NO incluye pruebas unitarias en su version mas actual (Version 2.0).
+El proyecto NO incluye pruebas unitarias en su version mas actual (Version 3.0).
 Aun asi, está en fase de desarrollo
 
 Cobertura:
@@ -249,14 +263,14 @@ El proyecto sigue.
 
 ## V[Beta]
 
-### Added
+### Añadido
 - Sistema de autenticación con clave maestra
 - Persistencia cifrada `.ckey`
 - Interfaz gráfica Swing
 
 ## V[1.0]
 
-### Added
+### Añadido
 - Sistema de autenticación con clave maestra
 - Generador de contraseñas
 - Persistencia cifrada `.ckey`
@@ -264,13 +278,24 @@ El proyecto sigue.
 
   ## V[2.0]
 
-### Added
+### AdAñadidoded
 - Sistema de autenticación con clave maestra
 - Generador de contraseñas
 - Persistencia cifrada `.ckey`
 - Interfaz gráfica Swing
 - Gestion de Bovedas
 - Modo oscuro
+
+    ## V[3.0] - ACTUAL
+
+### Añadido
+- Sistema de autenticación con clave maestra
+- Generador de contraseñas
+- Persistencia cifrada `.ckey`
+- Interfaz gráfica Swing
+- Gestion de Bovedas
+- Modo oscuro
+- Validación por doble factor de autentificacion via email
 
 ---
 
