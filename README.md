@@ -278,7 +278,7 @@ El proyecto sigue.
 
   ## V[2.0]
 
-### AdAñadidoded
+### Añadido
 - Sistema de autenticación con clave maestra
 - Generador de contraseñas
 - Persistencia cifrada `.ckey`
