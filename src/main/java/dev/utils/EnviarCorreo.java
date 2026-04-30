@@ -11,8 +11,8 @@ public class EnviarCorreo {
     private static String generatedCode;
     private static long expirationTime;
 
-    private static final String from = "adricoding647+CipherKeyEmailValidator@gmail.com";
-    private static final String password = "sxxw whjo vmpj qfhh";
+    private static final String from = "<Direccion de email que va a enviar el correo>";
+    private static final String password = "<clave de aplicacion de google>";
 
     public EnviarCorreo(String userEmail){
         enviarCodigo(userEmail);
