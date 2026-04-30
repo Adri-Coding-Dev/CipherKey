@@ -105,8 +105,3 @@ public class EnviarCorreo {
         """.formatted(code);
     }
 }
-
-/*
- private final String from = "light.on.top647+emailTestJava@gmail.com";
-    private final String password = "zclp ksch bpqm wzul";
- */
